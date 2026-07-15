@@ -1,0 +1,110 @@
+<%- include('partials/header') %>
+
+<div class="bg-gradient-to-b from-brand-50 to-slate-50 py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h1 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4">تحميل تطبيق تواصل بلس لأجهزة أندرويد</h1>
+      <p class="text-slate-500 text-lg">احصل على النسخة الرسمية والمضمونة مباشرة للاستفادة الكاملة من ميزات المحادثة المشفرة والشبكة اللامركزية.</p>
+    </div>
+
+    <!-- Main Download Card -->
+    <% if (versions && versions.length > 0) { %>
+      <% const latest = versions[0]; %>
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-xl overflow-hidden mb-12">
+        <div class="bg-brand-600 px-6 py-8 text-white text-center">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500 text-white mb-2">
+            🔥 الإصدار المستقر الأحدث
+          </span>
+          <h2 class="text-2xl font-bold">تواصل بلس v<%= latest.version_name %></h2>
+          <p class="text-brand-100 text-sm mt-1">تاريخ النشر: <%= latest.release_date %> | رمز الإصدار: <%= latest.version_code %></p>
+        </div>
+        
+        <div class="p-8 space-y-6">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base mb-2">الميزات الجديدة والتحديثات في هذا الإصدار:</h3>
+            <div class="bg-slate-50 p-4 rounded-xl text-sm leading-relaxed text-slate-600 whitespace-pre-wrap"><%= latest.changelog %></div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <a href="<%= latest.download_url %>" class="flex-1 flex items-center justify-center px-6 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/20 transition-all text-center">
+              <span class="material-symbols-outlined ml-2">download_for_offline</span>
+              تحميل ملف الـ APK المباشر (نسخة <%= latest.version_name %>)
+            </a>
+          </div>
+
+          <% if (latest.is_critical === 1 || latest.is_critical === true) { %>
+            <div class="bg-red-50 border border-red-100 rounded-xl p-4 flex items-start space-x-reverse space-x-3 text-red-700">
+              <span class="material-symbols-outlined text-red-500">warning</span>
+              <div class="text-xs">
+                <span class="font-bold">تحديث أمني مهم للغاية:</span> هذا الإصدار يحتوي على إصلاحات أمنية بالغة الأهمية. يرجى التثبيت الفوري لضمان أمان محادثاتك.
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center text-yellow-800 mb-12">
+        <span class="material-symbols-outlined text-4xl text-yellow-600 mb-2">construction</span>
+        <p class="font-bold">تجري حالياً معالجة ورفع الإصدارات الجديدة.</p>
+        <p class="text-sm mt-1">يرجى المحاولة مجدداً خلال دقائق أو مراجعة إدارة المنصة.</p>
+      </div>
+    <% } %>
+
+    <!-- Installation Instructions Guide -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-md p-8">
+      <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-reverse space-x-2">
+        <span class="material-symbols-outlined text-brand-600">help</span>
+        <span>طريقة تثبيت ملف الـ APK وتشغيله لأول مرة</span>
+      </h3>
+
+      <div class="space-y-6 text-sm text-slate-600">
+        <div class="flex space-x-reverse space-x-4">
+          <div class="w-8 h-8 rounded-full bg-slate-100 font-bold flex items-center justify-center text-slate-700">1</div>
+          <div>
+            <h4 class="font-bold text-slate-900">تنزيل الملف</h4>
+            <p class="mt-1">اضغط على زر تحميل ملف الـ APK وسيتم حفظ الملف في مجلد التنزيلات على جهازك.</p>
+          </div>
+        </div>
+
+        <div class="flex space-x-reverse space-x-4">
+          <div class="w-8 h-8 rounded-full bg-slate-100 font-bold flex items-center justify-center text-slate-700">2</div>
+          <div>
+            <h4 class="font-bold text-slate-900">السماح بتثبيت التطبيقات من مصادر غير معروفة</h4>
+            <p class="mt-1">نظراً لأن التطبيق يتم تحميله مباشرة بدون متجر Play Store، سيطلب منك نظام أندرويد الإذن. اذهب إلى <span class="bg-slate-50 px-1.5 py-0.5 rounded border text-xs">الإعدادات</span> -> <span class="bg-slate-50 px-1.5 py-0.5 rounded border text-xs">الأمان والخصوصية</span> -> <span class="bg-slate-50 px-1.5 py-0.5 rounded border text-xs">تثبيت التطبيقات غير المعروفة</span> ثم اسمح للمتصفح أو لمدير الملفات بالتثبيت.</p>
+          </div>
+        </div>
+
+        <div class="flex space-x-reverse space-x-4">
+          <div class="w-8 h-8 rounded-full bg-slate-100 font-bold flex items-center justify-center text-slate-700">3</div>
+          <div>
+            <h4 class="font-bold text-slate-900">فتح التطبيق ومنحه الأذونات المطلوبة</h4>
+            <p class="mt-1">افتح تطبيق تواصل بلس وامنحه صلاحية الوصول إلى البلوتوث والموقع الجغرافي والواي فاي المحلي. هذه الأذونات ضرورية لتأسيس شبكة تواصل محلية والتحدث مع من حولك دون إنترنت.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Archive / History -->
+    <% if (versions && versions.length > 1) { %>
+      <div class="mt-12 bg-white rounded-2xl border border-slate-100 shadow-md p-8">
+        <h3 class="text-lg font-bold text-slate-900 mb-4">الأرشيف والإصدارات السابقة:</h3>
+        <div class="divide-y divide-slate-100">
+          <% versions.slice(1).forEach(ver => { %>
+            <div class="py-4 flex justify-between items-center">
+              <div>
+                <p class="font-bold text-slate-800">إصدار <%= ver.version_name %> (رمز: <%= ver.version_code %>)</p>
+                <p class="text-xs text-slate-400">تاريخ الإصدار: <%= ver.release_date %></p>
+              </div>
+              <a href="<%= ver.download_url %>" class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center">
+                <span class="material-symbols-outlined text-sm ml-1">download</span> تحميل
+              </a>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

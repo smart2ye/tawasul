@@ -1,0 +1,322 @@
+<%- include('partials/header') %>
+
+<div class="bg-slate-100 min-h-screen py-10 flex-grow">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Header -->
+    <div class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div>
+        <div class="flex items-center space-x-reverse space-x-2">
+          <span class="material-symbols-outlined text-brand-400">admin_panel_settings</span>
+          <h1 class="text-2xl font-extrabold">لوحة إدارة وتحكم تواصل بلس ⚙️🛡️</h1>
+        </div>
+        <p class="text-slate-400 text-xs mt-1">التحكم بالأعضاء، الرد على التذاكر، بث التحديثات الرسمية ومراقبة البلاغات البرمجية.</p>
+      </div>
+      <div class="flex items-center space-x-reverse space-x-2 bg-slate-800 px-4 py-2 rounded-xl text-xs text-emerald-400 border border-slate-700">
+        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+        <span>الخادم متصل ونشط</span>
+      </div>
+    </div>
+
+    <!-- Feedback Alerts -->
+    <% if (success) { %>
+      <div class="mb-6 bg-emerald-50 border border-emerald-100 text-emerald-800 p-4 rounded-xl text-sm flex items-center space-x-reverse space-x-2">
+        <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+        <span><%= success %></span>
+      </div>
+    <% } %>
+    <% if (error) { %>
+      <div class="mb-6 bg-red-50 border border-red-100 text-red-800 p-4 rounded-xl text-sm flex items-center space-x-reverse space-x-2">
+        <span class="material-symbols-outlined text-red-600">error</span>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <!-- Quick Statistics Grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex items-center space-x-reverse space-x-4">
+        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+          <span class="material-symbols-outlined">group</span>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400">إجمالي المستخدمين</p>
+          <p class="text-2xl font-extrabold text-slate-800"><%= stats.totalUsers %></p>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex items-center space-x-reverse space-x-4">
+        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+          <span class="material-symbols-outlined">cloud_upload</span>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400">النسخ السحابية</p>
+          <p class="text-2xl font-extrabold text-slate-800"><%= stats.totalBackups %></p>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex items-center space-x-reverse space-x-4">
+        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+          <span class="material-symbols-outlined">feedback</span>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400">تذاكر معلقة</p>
+          <p class="text-2xl font-extrabold text-slate-800"><%= stats.openTicketsCount %></p>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm flex items-center space-x-reverse space-x-4">
+        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+          <span class="material-symbols-outlined">bug_report</span>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400">البلاغات الكلية</p>
+          <p class="text-2xl font-extrabold text-slate-800"><%= stats.totalFeedbacks %></p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Right/Mid Columns: Management Queues (Spans 2 cols) -->
+      <div class="lg:col-span-2 space-y-8">
+        
+        <!-- Tab 1: Support Tickets Queue -->
+        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-amber-500">support_agent</span>
+            <span>تذاكر الدعم والشكاوى المعلقة الواردة</span>
+          </h2>
+
+          <% if (tickets && tickets.length > 0) { %>
+            <div class="space-y-6">
+              <% tickets.forEach(t => { %>
+                <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/50 space-y-4">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="flex items-center space-x-reverse space-x-2 mb-1">
+                        <span class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded text-xxs font-bold"><%= t.category %></span>
+                        <span class="text-xs text-slate-400">من: <%= t.user_name %> (<%= t.user_email %>)</span>
+                      </div>
+                      <h4 class="font-bold text-slate-800 text-sm"><%= t.subject %></h4>
+                      <p class="text-xxs text-slate-400">تاريخ التذكرة: <%= new Date(t.created_at).toLocaleString('ar-EG') %></p>
+                    </div>
+
+                    <!-- Status -->
+                    <% if (t.status === 'OPEN') { %>
+                      <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">تنتظر الرد</span>
+                    <% } else { %>
+                      <span class="bg-slate-100 text-slate-500 px-2.5 py-0.5 rounded-full text-xs font-semibold">مكتملة</span>
+                    <% } %>
+                  </div>
+
+                  <p class="text-sm text-slate-600 bg-white p-3 rounded-lg border border-slate-100 leading-relaxed"><%= t.message %></p>
+
+                  <!-- Reply message history if replied -->
+                  <% if (t.reply_message) { %>
+                    <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-1">
+                      <p class="text-xs text-indigo-700 font-bold">الرد المرسل سابقاً:</p>
+                      <p class="text-sm text-indigo-900"><%= t.reply_message %></p>
+                    </div>
+                  <% } %>
+
+                  <!-- Answer Form if open -->
+                  <% if (t.status === 'OPEN') { %>
+                    <form action="/admin/tickets/reply?token=<%= req.query.token %>" method="POST" class="space-y-2 pt-2 border-t border-slate-100">
+                      <input type="hidden" name="ticket_id" value="<%= t.id %>">
+                      <label class="block text-xs font-bold text-slate-700">كتابة رد الدعم الفني المباشر:</label>
+                      <textarea name="reply_message" rows="2" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs" placeholder="أهلاً بك، تم حل المشكلة..."></textarea>
+                      <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors flex items-center">
+                        <span class="material-symbols-outlined text-sm ml-1">reply</span>
+                        إرسال الرد وإغلاق التذكرة
+                      </button>
+                    </form>
+                  <% } %>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <div class="text-center py-10 text-slate-400 text-xs">لا يوجد أي تذاكر معلقة حالياً.</div>
+          <% } %>
+        </div>
+
+        <!-- Tab 2: User Accounts Controls -->
+        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-blue-500">group</span>
+            <span>إدارة حسابات الأعضاء والتحكم بالأذونات</span>
+          </h2>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-100 text-sm text-right">
+              <thead>
+                <tr class="text-slate-400 text-xs">
+                  <th class="py-3 px-4 font-bold">الاسم والبريد</th>
+                  <th class="py-3 px-4 font-bold">تاريخ التسجيل</th>
+                  <th class="py-3 px-4 font-bold">الأذونات</th>
+                  <th class="py-3 px-4 font-bold text-left">الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-50 text-slate-700">
+                <% users.forEach(u => { %>
+                  <tr>
+                    <td class="py-3 px-4">
+                      <p class="font-bold text-slate-800"><%= u.full_name %></p>
+                      <p class="text-xs text-slate-400"><%= u.email %></p>
+                    </td>
+                    <td class="py-3 px-4 text-xs text-slate-400">
+                      <%= new Date(u.created_at).toLocaleDateString('ar-EG') %>
+                    </td>
+                    <td class="py-3 px-4">
+                      <% if (u.is_admin === 1 || u.is_admin === true) { %>
+                        <span class="bg-indigo-100 text-indigo-800 text-xxs px-2 py-0.5 rounded font-bold">مدير منصة</span>
+                      <% } else { %>
+                        <span class="bg-slate-100 text-slate-600 text-xxs px-2 py-0.5 rounded">مستخدم عادي</span>
+                      <% } %>
+                    </td>
+                    <td class="py-3 px-4 text-left">
+                      <!-- Block / Unblock form -->
+                      <% if (!(u.is_admin === 1 || u.is_admin === true)) { %>
+                        <form action="/admin/users/toggle-block?token=<%= req.query.token %>" method="POST" class="inline">
+                          <input type="hidden" name="user_id" value="<%= u.id %>">
+                          <input type="hidden" name="current_status" value="<%= u.is_blocked %>">
+                          <% if (u.is_blocked === 1 || u.is_blocked === true) { %>
+                            <button type="submit" class="text-emerald-500 hover:text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">إلغاء الحظر</button>
+                          <% } else { %>
+                            <button type="submit" class="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">حظر الحساب</button>
+                          <% } %>
+                        </form>
+                      <% } else { %>
+                        <span class="text-xs text-slate-300">-</span>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: App Feedbacks & Bugs list -->
+        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-purple-500">bug_report</span>
+            <span>بلاغات الأخطاء، المشكلات والتعليقات الواردة من التطبيق</span>
+          </h2>
+
+          <% if (feedbacks && feedbacks.length > 0) { %>
+            <div class="space-y-4">
+              <% feedbacks.forEach(f => { %>
+                <div class="border border-slate-100 rounded-xl p-4 bg-slate-50/30 flex justify-between items-start gap-4">
+                  <div class="space-y-1">
+                    <div class="flex items-center space-x-reverse space-x-2">
+                      <span class="bg-purple-100 text-purple-800 text-xxs font-bold px-2 py-0.5 rounded"><%= f.type %></span>
+                      <span class="text-xxs text-slate-400"><%= new Date(f.created_at).toLocaleString('ar-EG') %></span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed"><%= f.content %></p>
+                  </div>
+
+                  <!-- Resolve Action -->
+                  <% if (f.is_resolved === 1 || f.is_resolved === true) { %>
+                    <span class="text-emerald-500 font-bold text-xs flex items-center space-x-reverse space-x-1 flex-shrink-0">
+                      <span class="material-symbols-outlined text-sm">done_all</span>
+                      <span>تم الحل</span>
+                    </span>
+                  <% } else { %>
+                    <form action="/admin/feedbacks/resolve?token=<%= req.query.token %>" method="POST" class="flex-shrink-0">
+                      <input type="hidden" name="feedback_id" value="<%= f.id %>">
+                      <button type="submit" class="text-slate-500 hover:text-slate-800 hover:bg-slate-100 p-2 rounded-lg transition-colors flex items-center">
+                        <span class="material-symbols-outlined">done</span>
+                      </button>
+                    </form>
+                  <% } %>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <div class="text-center py-8 text-slate-400 text-xs">لا يوجد بلاغات مسجلة.</div>
+          <% } %>
+        </div>
+
+      </div>
+
+      <!-- Left Column: Fast Action Forms & APK distributions -->
+      <div class="space-y-8">
+        
+        <!-- Action 1: Publish App Version Check -->
+        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-brand-600">publish</span>
+            <span>نشر إصدار وتحديث جديد (APK)</span>
+          </h3>
+          <p class="text-xs text-slate-400 mb-6 leading-relaxed">سيقوم الخادم بتعميم التحديث الجديد فوراً على جميع الأجهزة وتنبيه المستخدمين لتنزيله.</p>
+
+          <form action="/admin/versions/publish?token=<%= req.query.token %>" method="POST" class="space-y-4 text-xs">
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">اسم الإصدار (Name)</label>
+                <input type="text" name="version_name" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="مثال: 1.0.1">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">رمز الإصدار (Code)</label>
+                <input type="number" name="version_code" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="مثال: 101">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">رابط التحميل للـ APK المباشر</label>
+              <input type="url" name="download_url" class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="https://domain.com/downloads/tawasul-v1.0.1.apk">
+              <span class="text-xxs text-slate-400 mt-1 block">أو اترك فارغاً لاستخدام الرابط الافتراضي.</span>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">سجل التغييرات والميزات (Changelog)</label>
+              <textarea name="changelog" rows="4" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="1. إصلاح مشكلات البلوتوث المتقطع.&#10;2. تحسين سرعة النسخ السحابي المشفر."></textarea>
+            </div>
+
+            <div class="flex items-center space-x-reverse space-x-2">
+              <input type="checkbox" name="is_critical" id="is_critical" class="rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+              <label for="is_critical" class="font-bold text-slate-700">هذا التحديث أمني حرج وإجباري للجميع</label>
+            </div>
+
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-xs font-bold rounded-xl text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/10 transition-colors">
+              نشر وتعميم التحديث الجديد 🚀
+            </button>
+          </form>
+        </div>
+
+        <!-- Action 2: Send General Notification alert (simulations/broadcasts) -->
+        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
+          <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-brand-600">ring_volume</span>
+            <span>بث إشعار عام للمستخدمين 📢</span>
+          </h3>
+          <p class="text-xs text-slate-400 mb-6 leading-relaxed">إرسال إشعار فوري لجميع المستخدمين لتنبيههم بخصوص الصيانة، الأخبار أو التحذيرات الهامة.</p>
+
+          <form action="/admin/notifications/broadcast?token=<%= req.query.token %>" method="POST" class="space-y-4 text-xs">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">عنوان التنبيه</label>
+              <input type="text" name="title" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="مثال: صيانة مجدولة للخوادم">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">تفاصيل ومحتوى الإشعار</label>
+              <textarea name="body" rows="3" required class="block w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none" placeholder="نود إبلاغكم بتوفر صيانة دورية لخوادم النسخ الاحتياطي في تمام الساعة..."></textarea>
+            </div>
+
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-xs font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition-colors">
+              بث وتعميم الإشعار فورا 📣
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

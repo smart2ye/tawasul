@@ -1,0 +1,89 @@
+<%- include('partials/header') %>
+
+<div class="bg-slate-50 py-16 flex-grow">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <span class="text-5xl block mb-3">📡🧭💡</span>
+      <h1 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4">مركز الدعم والمساعدة - تواصل بلس</h1>
+      <p class="text-slate-500 text-lg">هنا تجد إجابات تفصيلية وشروحات مبسطة حول كيفية الاستفادة القصوى من ميزات التطبيق.</p>
+    </div>
+
+    <!-- FAQ Search (Simulation) -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-lg p-6 mb-12">
+      <div class="relative">
+        <span class="material-symbols-outlined absolute right-4 top-3.5 text-slate-400">search</span>
+        <input type="text" id="faq-search" onkeyup="searchFAQ()" class="w-full pr-12 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm" placeholder="ابحث عن سؤالك هنا (مثال: تشفير، بلوتوث)...">
+      </div>
+    </div>
+
+    <!-- FAQ List -->
+    <div class="space-y-6" id="faq-list">
+      
+      <!-- Item 1 -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm faq-item">
+        <h3 class="font-bold text-slate-900 text-base mb-2 flex items-center space-x-reverse space-x-2">
+          <span class="material-symbols-outlined text-brand-600">offline_share</span>
+          <span>ما هي تقنية الشبكة اللامركزية (Mesh Network) وكيف تعمل؟</span>
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          هي شبكة تواصل محلية يتم إنشاؤها مباشرة بين الهواتف الذكية المجاورة لبعضها البعض باستخدام البلوتوث والواي فاي المباشر. تقوم الهواتف بنقل الرسائل لبعضها البعض تلقائياً للوصول للوجهة النهائية، دون الحاجة لوجود تغطية خلوية أو اتصال بالإنترنت.
+        </p>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm faq-item">
+        <h3 class="font-bold text-slate-900 text-base mb-2 flex items-center space-x-reverse space-x-2">
+          <span class="material-symbols-outlined text-brand-600">security</span>
+          <span>هل محادثاتي وبياناتي آمنة ومحمية من التجسس؟</span>
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          نعم، بكل تأكيد. جميع المحادثات والملفات المرسلة عبر الشبكة المحلية أو المخزنة كنسخ احتياطية سحابية يتم تشفيرها تشفيراً تاماً من طرف لطرف (End-to-End Encryption). هذا يعني أن الشخص المرسل إليه هو الوحيد القادر على فك تشفير الرسالة وقراءتها، ولا يمكن لأي وسيط أو حتى لإدارة السحابة الاطلاع على محتواها.
+        </p>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm faq-item">
+        <h3 class="font-bold text-slate-900 text-base mb-2 flex items-center space-x-reverse space-x-2">
+          <span class="material-symbols-outlined text-brand-600">cloud_upload</span>
+          <span>كيف أقوم برفع واسترجاع النسخة الاحتياطية السحابية؟</span>
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          بمجرد تسجيل حسابك وتسجيل الدخول داخل التطبيق، سيقوم التطبيق تلقائياً برفع نسخة مشفرة ومؤمنة من قاعدة بياناتك المحلية إلى السحابة فور عودة هاتفك للاتصال بالإنترنت العام. وفي حال قمت بتغيير هاتفك، يمكنك ببساطة تسجيل الدخول والضغط على زر "استعادة النسخة" لتعود جميع محادثاتك وسجلاتك فوراً.
+        </p>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm faq-item">
+        <h3 class="font-bold text-slate-900 text-base mb-2 flex items-center space-x-reverse space-x-2">
+          <span class="material-symbols-outlined text-brand-600">bluetooth_connected</span>
+          <span>ما هو المدى الجغرافي الأقصى لإرسال الرسائل بدون إنترنت؟</span>
+        </h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          يتراوح المدى المباشر بين أي جهازين من 50 إلى 100 متر حسب جودة البلوتوث ووجود العوائق. ولكن بفضل خاصية "التمرير الذكي للمسافات البعيدة"، يمكن للرسالة أن تنتقل لمسافات أبعد بكثير من خلال المرور عبر هواتف مستخدمين آخرين كحلقات وصل حتى تصل إلى وجهتها المقصودة.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function searchFAQ() {
+    const query = document.getElementById('faq-search').value.toLowerCase();
+    const items = document.getElementsByClassName('faq-item');
+    
+    for (let i = 0; i < items.length; i++) {
+      const text = items[i].innerText.toLowerCase();
+      if (text.includes(query)) {
+        items[i].classList.remove('hidden');
+      } else {
+        items[i].classList.add('hidden');
+      }
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,201 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="relative bg-white overflow-hidden border-b border-slate-100 py-20 lg:py-32">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+      
+      <!-- Text Area -->
+      <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-right">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 mb-6">
+          🌟 تقنية المحادثة المحلية السحابية الهجينة
+        </span>
+        <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl leading-tight">
+          تواصل في أي وقت، ومن أي مكان - <span class="text-brand-600 bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">حتى بدون إنترنت</span> 📡💬
+        </h1>
+        <p class="mt-4 text-base text-slate-500 sm:mt-5 sm:text-lg lg:text-base xl:text-lg leading-relaxed">
+          تواصل بلس هو الحل الثوري الأول الذي يحميك ويبقيك على اتصال في ظروف انقطاع الشبكة والكوارث. تواصل محلياً مع محيطك عبر البلوتوث والواي فاي Mesh، وامنح بياناتك حماية قصوى عبر النسخ الاحتياطي المشفر تلقائياً على السحابة عند توفر الشبكة.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-8 sm:max-w-lg sm:mx-auto lg:mx-0 flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="/download" class="w-full sm:w-auto flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white bg-brand-600 hover:bg-brand-700 md:py-4 md:text-lg md:px-10 shadow-lg shadow-brand-500/20 transition-all">
+            <span class="material-symbols-outlined ml-2">download</span>
+            تحميل التطبيق (APK)
+          </a>
+          <a href="/login" class="w-full sm:w-auto flex items-center justify-center px-8 py-4 border border-slate-200 text-base font-medium rounded-xl text-slate-700 bg-white hover:bg-slate-50 md:py-4 md:text-lg md:px-10 transition-colors">
+            <span class="material-symbols-outlined ml-2">cloud_upload</span>
+            بوابة النسخ الاحتياطي
+          </a>
+        </div>
+      </div>
+
+      <!-- App Preview Graphic Mockup -->
+      <div class="mt-12 sm:mt-16 lg:mt-0 lg:col-span-6 flex justify-center">
+        <div class="relative w-full max-w-md bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl overflow-hidden aspect-[9/16] flex flex-col justify-between">
+          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-300/20 via-transparent to-black/20"></div>
+          
+          <!-- Top Screen Bar -->
+          <div class="flex justify-between items-center z-10">
+            <span class="font-bold text-sm">تواصل بلس 💬</span>
+            <span class="text-xs px-2 py-1 bg-white/20 rounded-full flex items-center gap-1">
+              <span class="w-2 h-2 bg-emerald-400 rounded-full"></span> متصل بالشبكة المحلية
+            </span>
+          </div>
+
+          <!-- Mid graphic simulating messages -->
+          <div class="space-y-4 my-auto z-10">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 max-w-[85%] border border-white/10">
+              <p class="text-xs font-semibold text-brand-200">صديق قريب (عبر بلوتوث)</p>
+              <p class="text-sm mt-1">مرحباً! هل أنتم بخير؟ الشبكة العامة معطلة هنا تماماً.</p>
+            </div>
+            
+            <div class="bg-brand-500/80 rounded-2xl p-4 max-w-[85%] mr-auto text-right border border-white/10">
+              <p class="text-xs font-semibold text-brand-100">أنت (رسالة مشفرة)</p>
+              <p class="text-sm mt-1">نعم، نحن جميعاً بخير والحمد لله! تقنية Mesh ممتازة.</p>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 max-w-[85%] border border-white/10">
+              <p class="text-xs font-semibold text-brand-200">المركز الرئيسي 📡</p>
+              <p class="text-sm mt-1">تم تفعيل النسخ الاحتياطي التلقائي ومزامنة التحديثات.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Screen Bar -->
+          <div class="border-t border-white/10 pt-4 flex justify-between text-xs z-10 text-brand-100">
+            <p>تشفير تام طرف لطرف</p>
+            <p>v1.0.0</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="bg-brand-700 py-12 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="text-4xl lg:text-5xl font-extrabold text-white"><%= counts.users %></p>
+        <p class="mt-2 text-sm text-brand-100">مستخدم نشط</p>
+      </div>
+      <div>
+        <p class="text-4xl lg:text-5xl font-extrabold text-white"><%= counts.backups %></p>
+        <p class="mt-2 text-sm text-brand-100">نسخة احتياطية مشفرة</p>
+      </div>
+      <div>
+        <p class="text-4xl lg:text-5xl font-extrabold text-white">100%</p>
+        <p class="mt-2 text-sm text-brand-100">حماية وتشفير للخصوصية</p>
+      </div>
+      <div>
+        <p class="text-4xl lg:text-5xl font-extrabold text-white">0$</p>
+        <p class="mt-2 text-sm text-brand-100">مجاني بالكامل وبدون قيود</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 lg:py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto">
+      <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">لماذا تواصل بلس هو الخيار الأمثل؟</h2>
+      <p class="mt-4 text-lg text-slate-500">نحن ندمج بين التكنولوجيا الحديثة لتجاوز الأزمات وبين السحابة المؤمنة لضمان بقاء معلوماتك متاحة وآمنة دائماً.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+      
+      <!-- Card 1 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 mb-6">
+          <span class="material-symbols-outlined text-2xl">offline_share</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 mb-3">محادثات بدون إنترنت</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          إمكانية إرسال الرسائل والمستندات والملفات الكبيرة عبر شبكة تواصل بلس Mesh المباشرة باستخدام الواي فاي والبلوتوث دون الحاجة لشبكة خلوية أو باقة إنترنت.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-6">
+          <span class="material-symbols-outlined text-2xl">enhanced_encryption</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 mb-3">نسخ احتياطي سحابي مشفر</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          احتفظ بنسخ احتياطية من محادثاتك وسجلات تواصلك في قاعدة البيانات السحابية بشكل مشفر كلياً بمفتاحك الخاص. لا يمكن لأحد (حتى نحن) قراءتها.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-6">
+          <span class="material-symbols-outlined text-2xl">contact_support</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900 mb-3">الدعم الفني والشكاوى</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          مركز متكامل يتيح للمستخدمين فتح تذاكر استفسار مباشرة من التطبيق أو الويب، ومتابعة الردود من الإدارة لحل أي مشكلات فنية أو تقديم اقتراحات.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-20 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+      
+      <!-- Video / Picture simulated -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="bg-slate-100 border border-slate-200 rounded-2xl p-6 text-center shadow-inner max-w-sm">
+          <span class="text-6xl block mb-4">📱📡📶</span>
+          <h4 class="font-bold text-slate-800 text-lg mb-2">ثلاثية تواصل بلس</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            1. ابحث عن الأصدقاء القريبين.<br>
+            2. ارسل الرسائل والملفات.<br>
+            3. ارفع النسخ عند توفر أول اتصال بالإنترنت.
+          </p>
+        </div>
+      </div>
+
+      <!-- Steps text -->
+      <div class="mt-12 lg:mt-0 lg:col-span-7">
+        <h2 class="text-3xl font-extrabold text-slate-900">خطوات بسيطة للبقاء على اتصال دائم</h2>
+        <div class="mt-8 space-y-6">
+          
+          <div class="flex items-start space-x-reverse space-x-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-600 font-bold flex items-center justify-center">١</span>
+            <div>
+              <h4 class="font-bold text-slate-900 text-base">تنزيل وتثبيت التطبيق على جهازك</h4>
+              <p class="text-sm text-slate-500 mt-1">حمل ملف APK المباشر من خلال موقعنا الرسمي وقم بتثبيته على هاتفك الأندرويد لتبدأ العمل مباشرة.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-reverse space-x-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-600 font-bold flex items-center justify-center">٢</span>
+            <div>
+              <h4 class="font-bold text-slate-900 text-base">إنشاء حساب سحابي وتجهيز مفتاح التشفير</h4>
+              <p class="text-sm text-slate-500 mt-1">سجل حساباً مجانياً لحفظ نسخك الاحتياطية وتتبع التحديثات. يمكنك حماية حسابك بكلمة مرور مشفرة.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-reverse space-x-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-100 text-brand-600 font-bold flex items-center justify-center">٣</span>
+            <div>
+              <h4 class="font-bold text-slate-900 text-base">ابدأ في المحادثة والمشاركة محلياً</h4>
+              <p class="text-sm text-slate-500 mt-1">تواصل مع أفراد عائلتك أو زملائك في العمل القريبين منك، وتبادل معهم الصور والخرائط وتفاصيل الحالة بسلاسة فائقة.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

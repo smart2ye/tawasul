@@ -1,0 +1,204 @@
+<%- include('partials/header') %>
+
+<div class="bg-slate-50 py-10 flex-grow">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Top Greeting Area -->
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl font-extrabold text-slate-900">أهلاً بك، <%= user.full_name %> 👋</h1>
+        <p class="text-slate-500 text-sm mt-1">من هنا يمكنك إدارة نسخك السحابية المشفرة وفتح تذاكر الدعم والشكاوى.</p>
+      </div>
+      <div class="bg-brand-50 px-4 py-2 rounded-xl text-xs font-semibold text-brand-700 flex items-center space-x-reverse space-x-1 border border-brand-100">
+        <span class="material-symbols-outlined text-sm">security</span>
+        <span>جميع النسخ الاحتياطية مشفرة بالكامل طرف لطرف (E2EE)</span>
+      </div>
+    </div>
+
+    <% if (success) { %>
+      <div class="mb-6 bg-emerald-50 border border-emerald-100 text-emerald-800 p-4 rounded-xl text-sm flex items-center space-x-reverse space-x-2">
+        <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+        <span><%= success %></span>
+      </div>
+    <% } %>
+
+    <% if (error) { %>
+      <div class="mb-6 bg-red-50 border border-red-100 text-red-800 p-4 rounded-xl text-sm flex items-center space-x-reverse space-x-2">
+        <span class="material-symbols-outlined text-red-600">error</span>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Right Side: Cloud Backups List (Spans 2 columns) -->
+      <div class="lg:col-span-2 space-y-8">
+        
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-reverse space-x-2">
+              <span class="material-symbols-outlined text-brand-600">cloud_upload</span>
+              <span>سجلات النسخ الاحتياطي الخاصة بك ☁️</span>
+            </h2>
+            <span class="text-xs bg-slate-100 px-2.5 py-1 rounded-full text-slate-600 font-medium">عدد الأجهزة: <%= backups.length %></span>
+          </div>
+
+          <% if (backups && backups.length > 0) { %>
+            <div class="space-y-4">
+              <% backups.forEach(b => { %>
+                <div class="border border-slate-100 rounded-xl p-4 flex justify-between items-center bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                  <div class="space-y-1">
+                    <div class="flex items-center space-x-reverse space-x-2">
+                      <span class="material-symbols-outlined text-slate-600">phone_android</span>
+                      <p class="font-bold text-slate-800 text-sm"><%= b.device_name %></p>
+                    </div>
+                    <div class="flex flex-wrap gap-x-4 text-xs text-slate-400">
+                      <span>الحجم: <%= (b.backup_size / 1024).toFixed(2) %> KB</span>
+                      <span>تاريخ الحفظ: <%= new Date(b.updated_at).toLocaleString('ar-EG') %></span>
+                    </div>
+                  </div>
+
+                  <!-- Delete Backup Button -->
+                  <button onclick="deleteBackup('<%= b.id %>')" class="text-red-500 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors flex items-center">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <div class="text-center py-12 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+              <span class="text-4xl block mb-2">📥</span>
+              <p class="font-semibold text-slate-600 text-sm">لا توجد نسخ احتياطية مسجلة باسمك بعد.</p>
+              <p class="text-xs text-slate-400 mt-1">سيقوم التطبيق برفع النسخة الاحتياطية تلقائياً بمجرد اتصالك بالإنترنت.</p>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Support Tickets History -->
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-brand-600">question_answer</span>
+            <span>تذاكر الدعم والشكاوى السابقة 🛠️</span>
+          </h2>
+
+          <% if (tickets && tickets.length > 0) { %>
+            <div class="space-y-6">
+              <% tickets.forEach(t => { %>
+                <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/30 space-y-4">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xxs font-semibold bg-indigo-50 text-indigo-700 mb-1">
+                        <%= t.category %>
+                      </span>
+                      <h4 class="font-bold text-slate-800 text-sm"><%= t.subject %></h4>
+                      <p class="text-xs text-slate-400">تاريخ التذكرة: <%= new Date(t.created_at).toLocaleString('ar-EG') %></p>
+                    </div>
+
+                    <!-- Ticket Status Badge -->
+                    <% if (t.status === 'OPEN') { %>
+                      <span class="bg-yellow-50 text-yellow-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">انتظار الرد</span>
+                    <% } else if (t.status === 'ANSWERED') { %>
+                      <span class="bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">تم الرد</span>
+                    <% } else { %>
+                      <span class="bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full text-xs font-semibold">مغلقة</span>
+                    <% } %>
+                  </div>
+
+                  <p class="text-sm text-slate-600 bg-white p-3 rounded-lg border border-slate-100"><%= t.message %></p>
+
+                  <!-- Admin reply if exists -->
+                  <% if (t.reply_message) { %>
+                    <div class="bg-brand-50/50 p-4 rounded-xl border border-brand-100 space-y-2">
+                      <div class="flex items-center space-x-reverse space-x-1.5 text-xs text-brand-700 font-bold">
+                        <span class="material-symbols-outlined text-sm">support_agent</span>
+                        <span>رد مسؤول الدعم الفني:</span>
+                      </div>
+                      <p class="text-sm text-brand-900"><%= t.reply_message %></p>
+                    </div>
+                  <% } %>
+                </div>
+              <% }); %>
+            </div>
+          <% } else { %>
+            <div class="text-center py-10 text-slate-400 text-xs">لا يوجد أي تذاكر دعم فني مسجلة لديك حالياً.</div>
+          <% } %>
+        </div>
+
+      </div>
+
+      <!-- Left Side: Create Support Ticket Form -->
+      <div class="space-y-8">
+        
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm sticky top-24">
+          <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center space-x-reverse space-x-2">
+            <span class="material-symbols-outlined text-brand-600">rate_review</span>
+            <span>إنشاء تذكرة دعم / شكوى ✍️</span>
+          </h2>
+          <p class="text-xs text-slate-400 mb-6 leading-relaxed">هل واجهت مشكلة في الاتصال بالشبكة؟ أو فقدت بعض البيانات؟ راسل فريق الإدارة مباشرة وسنجيبك فوراً.</p>
+
+          <form action="/dashboard/ticket?token=<%= req.query.token %>" method="POST" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">نوع الاستفسار / الشكوى</label>
+              <select name="category" class="block w-full px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm">
+                <option value="GENERAL">استفسار عام</option>
+                <option value="BACKUP">مزامنة النسخ السحابي</option>
+                <option value="BUG">مشكلة برمجية / خطأ</option>
+                <option value="SUGGESTION">اقتراح ميزة جديدة</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">عنوان التذكرة</label>
+              <input type="text" name="subject" required class="block w-full px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm" placeholder="مثال: فشل رفع النسخة الاحتياطية">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">تفاصيل المشكلة / الرسالة</label>
+              <textarea name="message" rows="4" required class="block w-full px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm" placeholder="اكتب تفاصيل مشكلتك هنا بوضوح لضمان سرعة الرد..."></textarea>
+            </div>
+
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/10 transition-colors">
+              <span class="material-symbols-outlined ml-2 text-sm">send</span>
+              إرسال التذكرة للمراجعة
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  async function deleteBackup(id) {
+    if (!confirm('هل أنت متأكد تماماً من رغبتك في حذف هذه النسخة الاحتياطية سحابياً؟ هذا الإجراء غير قابل للتراجع!')) {
+      return;
+    }
+
+    const token = new URLSearchParams(window.location.search).get('token') || localStorage.getItem('tawasul_token');
+
+    try {
+      const response = await fetch(`/api/backups/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'فشل حذف النسخة الاحتياطية.');
+      }
+
+      alert('تم حذف النسخة الاحتياطية بنجاح.');
+      window.location.reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>

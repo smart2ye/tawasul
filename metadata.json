@@ -1,0 +1,6 @@
+{
+  "name": "تواصل بلس",
+  "description": "تطبيق إتصال ومشاركة غير متصل بالإنترنت يتيح إجراء المكالمات الصوتية والمرئية، وتبادل الرسائل والملفات الكبيرة بأمان وتشفير كامل عبر البلوتوث والاتصالات المحلية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

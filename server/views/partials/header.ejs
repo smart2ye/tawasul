@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تواصل بلس | بوابة الخدمات والموقع الرسمي</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <!-- Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              200: '#ddd6fe',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              800: '#5b21b6',
+              900: '#4c1d95',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Navigation Bar -->
+  <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        
+        <!-- Logo & Brand -->
+        <div class="flex items-center space-x-reverse space-x-3">
+          <a href="/" class="flex items-center space-x-reverse space-x-2">
+            <span class="text-3xl">💬</span>
+            <span class="font-extrabold text-xl bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">تواصل بلس</span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-reverse space-x-6 text-sm font-medium">
+          <a href="/" class="text-slate-600 hover:text-brand-600 transition-colors">الرئيسية</a>
+          <a href="/download" class="text-slate-600 hover:text-brand-600 transition-colors">تحميل التطبيق</a>
+          <a href="/help" class="text-slate-600 hover:text-brand-600 transition-colors">مركز المساعدة</a>
+          <a href="/privacy" class="text-slate-600 hover:text-brand-600 transition-colors">سياسة الخصوصية</a>
+        </nav>
+
+        <!-- Authentication & Gateways Buttons -->
+        <div class="flex items-center space-x-reverse space-x-3 text-sm font-medium" id="auth-buttons">
+          <!-- Logged Out Buttons (Default) -->
+          <div id="logged-out-view" class="flex items-center space-x-reverse space-x-3">
+            <a href="/login" class="text-slate-600 hover:text-brand-600 px-3 py-2 transition-colors">تسجيل الدخول</a>
+            <a href="/register" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg transition-colors shadow-sm shadow-brand-500/10">إنشاء حساب</a>
+          </div>
+
+          <!-- Logged In Buttons (Managed via JavaScript) -->
+          <div id="logged-in-view" class="hidden flex items-center space-x-reverse space-x-3">
+            <span class="text-slate-500 hidden lg:inline" id="user-greeting">مرحباً، مستخدم</span>
+            
+            <a href="/dashboard" id="dashboard-link" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors flex items-center space-x-reverse space-x-1">
+              <span class="material-symbols-outlined text-sm">cloud_done</span>
+              <span>سحابتي</span>
+            </a>
+
+            <!-- Admin Link (Hidden by default unless token is admin) -->
+            <a href="/admin" id="admin-link" class="hidden bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-2 rounded-lg transition-colors flex items-center space-x-reverse space-x-1">
+              <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
+              <span>لوحة الإدارة</span>
+            </a>
+
+            <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors flex items-center">
+              <span class="material-symbols-outlined">logout</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Authentication script to inject JWT Token dynamically into links -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('tawasul_token');
+      const userStr = localStorage.getItem('tawasul_user');
+      
+      if (token && userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          
+          // Show logged in view
+          document.getElementById('logged-out-view').classList.add('hidden');
+          document.getElementById('logged-in-view').classList.remove('hidden');
+          
+          // Set user greeting
+          document.getElementById('user-greeting').innerText = `مرحباً، ${user.full_name}`;
+          
+          // Auto append token to navigation links that require auth
+          document.getElementById('dashboard-link').href = `/dashboard?token=${token}`;
+          
+          if (user.is_admin) {
+            const adminLink = document.getElementById('admin-link');
+            adminLink.classList.remove('hidden');
+            adminLink.href = `/admin?token=${token}`;
+          }
+        } catch (e) {
+          localStorage.removeItem('tawasul_token');
+          localStorage.removeItem('tawasul_user');
+        }
+      }
+    });
+
+    function handleLogout() {
+      localStorage.removeItem('tawasul_token');
+      localStorage.removeItem('tawasul_user');
+      window.location.href = '/';
+    }
+  </script>
